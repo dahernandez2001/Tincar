@@ -1,138 +1,23 @@
-import os
-import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask
+from app.routes.auth import bp as auth_bp
+from app.models import db
+from app.config import Config
 
-# Configuración rutas absolutas
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+def create_app():
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(Config)
 
-app = Flask(
-    __name__,
-    static_folder=os.path.join(BASE_DIR, 'static'),
-    template_folder=os.path.join(BASE_DIR, 'templates')
-)
+    db.init_app(app)
 
-app.secret_key = 'clave-secreta'
-DB_NAME = os.path.join(BASE_DIR, 'tincar.db')
+    # Registrar blueprint de autenticación
+    app.register_blueprint(auth_bp)
 
+    @app.route('/')
+    def index():
+        return "Bienvenido a TinCar (inicio provisional)"
 
-# === Funciones de base de datos ===
-def get_db_connection():
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row  # Permite acceder por nombre de columna
-    return conn
+    return app
 
-
-def create_users_table():
-    conn = get_db_connection()
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            role TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-
-def get_user_by_email(email):
-    conn = get_db_connection()
-    c = conn.cursor()
-    c.execute('SELECT * FROM users WHERE email = ?', (email,))
-    user = c.fetchone()
-    conn.close()
-    return user
-
-
-def insert_user(name, email, password, role):
-    conn = get_db_connection()
-    c = conn.cursor()
-    c.execute('INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-              (name, email, password, role))
-    conn.commit()
-    conn.close()
-
-
-# === Rutas principales ===
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        phone = request.form.get('phone')
-        role = request.form.get('role')  # conductor o arrendador
-
-        if not all([name, email, password, phone, role]):
-            flash('Por favor completa todos los campos.', 'error')
-            return redirect(url_for('register'))
-
-        if get_user_by_email(email):
-            flash('El correo ya está registrado', 'error')
-            return redirect(url_for('register'))
-
-        # Guardar el nuevo usuario
-        conn = sqlite3.connect(DB_NAME)
-        c = conn.cursor()
-        c.execute('INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-                  (name, email, password, phone, role))
-        conn.commit()
-        conn.close()
-
-        flash('Cuenta creada exitosamente, ahora inicia sesión.', 'success')
-        return redirect(url_for('login'))
-
-    return render_template('register.html')
-
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user = get_user_by_email(email)
-
-        if user and user['password'] == password:
-            session['user_id'] = user['id']
-            session['name'] = user['name']
-            session['email'] = user['email']
-            session['role'] = user['role']
-            print("ROL LOGUEADO:", user['role'])  # debug
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Correo o contraseña incorrectos', 'error')
-
-    return render_template('login.html')
-
-
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
-    return render_template(
-        'dashboard.html',
-        name=session.get('name'),
-        role=session.get('role')
-    )
-
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
-
-
-# Ejecutar la app
 if __name__ == '__main__':
-    create_users_table()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app = create_app()
+    app.run(debug=True)
