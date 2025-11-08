@@ -1,0 +1,47 @@
+.vehicle-card {
+  background: #2C2C2C;
+  border: 2px solid #404040;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vehicle-card:hover {
+  border-color: #FFB300;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 179, 0, 0.2);
+}
+
+.vehicle-card.selected {
+  border-color: #FFB300;
+  background: linear-gradient(135deg, rgba(255, 179, 0, 0.15) 0%, rgba(232, 142, 46, 0.15) 100%);
+  box-shadow: 0 0 20px rgba(255, 179, 0, 0.3);
+}
+
+.vehicle-info {
+  position: relative;
+}
+
+.selected-badge {
+  background: #FFB300;
+  color: #1A1919;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.btn-outline-orange {
+  background: transparent;
+  color: #FFB300;
+  border: 2px solid #FFB300;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-orange:hover {
+  background: #FFB300;
+  color: #1A1919;
+}

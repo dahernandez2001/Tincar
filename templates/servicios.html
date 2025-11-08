@@ -1,77 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<style>
-  :root {
-    --primary: #FFB300;
-    --dark: #1A1919;
-    --light-dark: #2C2C2C;
-    --cream: #FFEFCA;
-    --accent: #E88E2E;
-  }
-
-  body {
-    background-color: var(--dark);
-  }
-
-  /* Estilos para navegación con burbuja */
-  .nav {
-    position: relative;
-    display: flex;
-    gap: 12px;
-    padding: 8px;
-    align-items: center;
-    background: transparent;
-  }
-
-  .nav a {
-    position: relative;
-    padding: 8px 12px;
-    border-radius: 999px;
-    color: #fff;
-    text-decoration: none;
-    z-index: 2;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .nav a:hover {
-    color: #FFB300 !important;
-  }
-
-  .nav-bubble {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    width: 0;
-    height: 36px;
-    background: rgba(255, 179, 0, 0.12);
-    border: 1px solid rgba(255, 179, 0, 0.18);
-    border-radius: 999px;
-    transition: left .20s ease, width .20s ease, height .20s ease;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .service-card {
-    background-color: transparent;
-    border: 1px solid #6c757d;
-    border-radius: 1rem;
-  }
-
-  .service-badge {
-    background-color: var(--primary);
-    color: var(--dark);
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-  }
-
-  .divider-line {
-    border-color: #f8f9fa !important;
-  }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/servicios.css') }}">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary py-3">
@@ -116,26 +46,8 @@
 
 <script>
   // Script para la burbuja de navegación
-  document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.querySelector('.nav');
-    const bubble = document.querySelector('.nav-bubble');
-    const links = nav ? nav.querySelectorAll('a') : [];
-
-    links.forEach(link => {
-      link.addEventListener('mouseenter', function() {
-        const rect = this.getBoundingClientRect();
-        const navRect = nav.getBoundingClientRect();
-        
-        bubble.style.left = (rect.left - navRect.left) + 'px';
-        bubble.style.width = rect.width + 'px';
-        bubble.style.height = rect.height + 'px';
-      });
-    });
-
-    nav?.addEventListener('mouseleave', () => {
-      bubble.style.width = '0';
-    });
-  });
+  // moved to static/js/servicios.js
 </script>
+<script src="{{ url_for('static', filename='js/servicios.js') }}"></script>
 
 {% endblock %}
