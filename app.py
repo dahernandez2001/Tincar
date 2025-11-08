@@ -181,6 +181,38 @@ def driver_index():
     return render_template('index_driver.html', nombre=nombre)
 
 
+@app.route('/landlord')
+def landlord_index():
+    """Dashboard para arrendador (landlord)."""
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name, role FROM users WHERE id = ?", (session['user_id'],))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        return redirect(url_for('auth.login'))
+
+    # Solo arrendadores pueden ver este dashboard
+    if user[2] != 'arrendador':
+        # Si no es arrendador, redirigir al dashboard genérico
+        return redirect(url_for('dashboard'))
+
+    try:
+        parkings = get_parkings_by_owner(user[0])
+    except Exception:
+        parkings = []
+
+    for p in parkings:
+        p.setdefault('status', 'Libre')
+        p.setdefault('price', '0')
+        p.setdefault('time', '00:00:00')
+
+    return render_template('dashboard_landlord.html', nombre=user[1], role=user[2], parkings=parkings)
+
+
 @app.route('/driver/profile')
 def driver_profile():
     """Página de perfil completo del conductor"""
@@ -506,7 +538,15 @@ def api_get_active_parkings():
         result = [{
             'id': p['id'],
             'name': p['name'],
+            'phone': p.get('phone'),
+            'email': p.get('email'),
             'address': p.get('address'),
+            'department': p.get('department'),
+            'city': p.get('city'),
+            'housing_type': p.get('housing_type'),
+            'size': p.get('size'),
+            'features': p.get('features'),
+            'image_path': p.get('image_path'),
             'latitude': p.get('latitude'),
             'longitude': p.get('longitude'),
             'owner_id': p.get('owner_id'),
@@ -548,10 +588,18 @@ def api_get_parking(parking_id):
         return jsonify({
             'id': p['id'],
             'name': p['name'],
-            'address': p['address'],
-            'latitude': p['latitude'],
-            'longitude': p['longitude'],
-            'owner_id': p['owner_id'],
+            'phone': p.get('phone'),
+            'email': p.get('email'),
+            'address': p.get('address'),
+            'department': p.get('department'),
+            'city': p.get('city'),
+            'housing_type': p.get('housing_type'),
+            'size': p.get('size'),
+            'features': p.get('features'),
+            'image_path': p.get('image_path'),
+            'latitude': p.get('latitude'),
+            'longitude': p.get('longitude'),
+            'owner_id': p.get('owner_id'),
             'status': 'Libre'  # Asignar estado por defecto
         })
     except Exception as e:
@@ -792,6 +840,33 @@ def api_get_user_profile():
             'email': user['email'],
             'phone': user['phone'],
             'role': user['role']
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/users/profile/<int:user_id>', methods=['GET'])
+def api_get_user_profile_by_id(user_id):
+    """Obtener perfil público (limitado) de un usuario por ID. Requiere sesión autenticada."""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'error': 'not authenticated'}), 401
+    try:
+        # Usar get_driver_profile si existe (contiene phone, emergency_phone, rating, total_reservations)
+        from models import get_driver_profile
+        profile = get_driver_profile(user_id)
+        if not profile:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+        # Construir respuesta pública (solo campos necesarios para el menú lateral)
+        return jsonify({
+            'success': True,
+            'id': profile.get('id'),
+            'name': profile.get('name'),
+            'email': profile.get('email'),
+            'phone': profile.get('phone'),
+            'emergency_phone': profile.get('emergency_phone'),
+            'profile_photo': profile.get('profile_photo'),
+            'rating': profile.get('rating') or 0,
+            'total_reservations': profile.get('total_reservations') or 0
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -1757,4 +1832,5 @@ if __name__ == '__main__':
     t.start()
 
     # Start SocketIO server; bind to 0.0.0.0 so it's reachable from host
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', '5000'))
+    socketio.run(app, host='0.0.0.0', port=port, debug=True)

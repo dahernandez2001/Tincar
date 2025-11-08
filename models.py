@@ -78,20 +78,32 @@ def create_users_table():
         ('total_reservations', 'INTEGER DEFAULT 0'),  # Total de reservaciones completadas
         ('total_cancellations', 'INTEGER DEFAULT 0'),  # Número de cancelaciones
         ('account_status', 'TEXT DEFAULT "activo"'),  # activo/suspendido/bloqueado
-        ('created_at', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP'),
-        ('updated_at', 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP'),
+        ('created_at', 'TIMESTAMP'),
+        ('updated_at', 'TIMESTAMP'),
         ('last_activity', 'TIMESTAMP')
     ]
     
+    added_cols = []
     for col_name, col_type in new_columns:
         if col_name not in cols:
             try:
                 cursor.execute(f'ALTER TABLE users ADD COLUMN {col_name} {col_type}')
+                added_cols.append(col_name)
                 print(f"[models] Columna '{col_name}' agregada a la tabla users")
             except Exception as e:
                 print(f"[models] Error agregando columna '{col_name}': {e}")
     
     conn.commit()
+    # Si agregamos created_at/updated_at, inicializarlas para filas existentes
+    try:
+        if 'created_at' in added_cols:
+            cursor.execute("UPDATE users SET created_at = datetime('now') WHERE created_at IS NULL")
+        if 'updated_at' in added_cols:
+            cursor.execute("UPDATE users SET updated_at = datetime('now') WHERE updated_at IS NULL")
+        conn.commit()
+    except Exception as e:
+        # No fallar si la actualización no es posible
+        print(f"[models] Error inicializando timestamps en users: {e}")
     conn.close()
 
 

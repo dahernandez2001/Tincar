@@ -623,12 +623,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 });
 function showDriverInfo(driverId) {
-  // Aquí puedes mostrar un modal con la información del conductor
-  fetch(`/api/users/profile?user_id=${driverId}`)
+  // Abrir el menú lateral del conductor y poblarlo con la información
+  fetch(`/api/users/profile/${driverId}`)
     .then(r => r.json())
     .then(data => {
-      if (data.success) {
-        alert(`Conductor: ${data.name}\nCorreo: ${data.email}\nTeléfono: ${data.phone}`);
+      if (data && data.success) {
+        // Llamar a la función global definida en layout.html
+        if (typeof openDriverSideMenuWithData === 'function') {
+          openDriverSideMenuWithData(data);
+        } else {
+          alert(`Conductor: ${data.name}\nCorreo: ${data.email}\nTeléfono: ${data.phone}`);
+        }
       } else {
         alert('No se pudo obtener la información del conductor');
       }

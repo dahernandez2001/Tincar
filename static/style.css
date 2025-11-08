@@ -305,10 +305,9 @@ header nav a:hover { color: #FFB300 }
 .parking-name { cursor: pointer; }
 .parking-name:hover { text-decoration: underline; }
 
-/* 1) Hacer que el texto del modal conductor y algunos campos use el mismo tono que "Modo conductor" (#FFB300) */
 .modal-card .badge.btn-orange { background-color: #FFB300; color: #1A1919; }
-/* limitar color amarillo solo al modal conductor para no afectar al arrendador */
-#driverParkingModal .modal-card .form-control[disabled], #driverParkingModal .modal-card .form-control { color: #FFB300; }
+/* Ajuste: usar texto blanco en inputs del modal para mejor legibilidad sobre fondo oscuro */
+#driverParkingModal .modal-card .form-control[disabled], #driverParkingModal .modal-card .form-control { color: #FFFFFF; }
 .parking-status, .parking-time { color: #FFB300; font-weight: 600; }
 
 /* Aumentar especificidad y forzar visibilidad en la tabla de arrendador
@@ -371,9 +370,10 @@ header nav a:hover { color: #FFB300 }
 .modal-footer { padding: 0 20px; border-top: 1px solid rgba(255,179,0,0.2); }
 .upload-placeholder { width:140px; height:120px; background: rgba(44,44,44,0.5); border: 2px dashed #FFB300; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#FFB300; transition: all 0.2s ease; }
 .upload-placeholder:hover { background: rgba(44,44,44,0.8); border-color: #E88E2E; color: #E88E2E; }
-.form-control { background-color: rgba(44,44,44,0.5); border: 1px solid #FFB300; color: #FFEFCA; transition: all 0.2s ease; }
-.form-control:focus { background-color: rgba(44,44,44,0.8); border-color: #E88E2E; color: #FFEFCA; box-shadow: 0 0 0 0.2rem rgba(255,179,0,0.25); }
-.form-control::placeholder { color: #9b9b9b }
+/* Inputs dentro del modal: usar fondo oscuro consistente y texto blanco */
+.modal-card .form-control { background-color: #1A1919; border: 1px solid rgba(255,255,255,0.06); color: #FFFFFF; transition: all 0.2s ease; }
+.modal-card .form-control:focus { background-color: #1A1919; border-color: #FFB300; color: #FFFFFF; box-shadow: 0 0 0 0.2rem rgba(255,179,0,0.12); }
+.modal-card .form-control::placeholder { color: #9b9b9b }
 .btn-outline-light { background: transparent; color: #FFB300; border: 2px solid #FFB300; }
 
 /* Burbuja de notificaciones (cono) */

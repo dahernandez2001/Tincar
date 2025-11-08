@@ -41,6 +41,47 @@
     {% endif %}
   {% endwith %}
 
+  <!-- Menú lateral: Para perfil Conductor (reutiliza estilos de account-side-menu) -->
+  <aside id="driverSideMenu" class="account-side-menu" style="right: -380px; width: 380px; z-index: 9998;">
+    <div class="account-menu-header">
+      <h3>Conductor</h3>
+      <button id="closeDriverSideMenu" class="close-account-menu">×</button>
+    </div>
+    <div class="account-menu-body">
+      <div class="account-info text-center">
+        <div id="driverProfilePhoto" class="profile-circle-large mx-auto mb-3" style="background-image: url(&quot;{{ url_for('static', filename='img/cono.png') }}&quot;); background-size: cover; background-position: center;"></div>
+        <h4 id="driverName" class="text-center mb-1">Conductor</h4>
+        <p id="driverEmail" class="text-center text-secondary mb-3">correo@ejemplo.com</p>
+      </div>
+      <hr class="my-3" style="border-color: #FFB300;">
+      <div class="account-stats">
+        <div class="stat-item">
+          <span class="stat-label">Calificación</span>
+          <span id="driverRating" class="stat-value text-warning">⭐ <span>0</span></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Reservas totales</span>
+          <span id="driverTotalReservations" class="stat-value">0</span>
+        </div>
+      </div>
+      <hr class="my-3" style="border-color: #FFB300;">
+      <div class="account-actions">
+        <div class="stat-item">
+          <span class="stat-label">Teléfono</span>
+          <span id="driverPhone" class="stat-value">-</span>
+        </div>
+        <div class="stat-item mt-2">
+          <span class="stat-label">Teléfono de emergencia</span>
+          <span id="driverEmergencyPhone" class="stat-value">-</span>
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <a id="viewDriverFullProfile" href="#" class="btn btn-orange w-100">Ver perfil completo</a>
+      </div>
+    </div>
+  </aside>
+
+
   <!-- Contenido dinámico -->
   {% block content %}{% endblock %}
 
@@ -57,6 +98,44 @@
           bsAlert.close();
         }, 3000); // 3 segundos
       });
+    });
+  </script>
+  <script>
+    // Funciones para el menú lateral del conductor
+    function openDriverSideMenuWithData(data){
+      const menu = document.getElementById('driverSideMenu');
+      if(!menu) return;
+      // populate fields
+      document.getElementById('driverName').textContent = data.name || 'Conductor';
+      document.getElementById('driverEmail').textContent = data.email || '';
+      document.getElementById('driverRating').innerHTML = `⭐ <span>${data.rating || 0}</span>`;
+      document.getElementById('driverTotalReservations').textContent = data.total_reservations || 0;
+      document.getElementById('driverPhone').textContent = data.phone || '-';
+      document.getElementById('driverEmergencyPhone').textContent = data.emergency_phone || '-';
+      const photo = document.getElementById('driverProfilePhoto');
+      if(photo) {
+        const url = data.profile_photo || '/static/img/cono.png';
+        photo.style.backgroundImage = `url('${url}')`;
+      }
+      // update link
+      const viewLink = document.getElementById('viewDriverFullProfile');
+      if(viewLink) viewLink.href = `/driver/profile/${data.id}`;
+
+      menu.classList.add('active');
+      // ensure it is visible (same behavior as account-side-menu.active)
+      menu.style.right = '0';
+    }
+
+    function closeDriverSideMenu(){
+      const menu = document.getElementById('driverSideMenu');
+      if(!menu) return;
+      menu.classList.remove('active');
+      menu.style.right = '-380px';
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const closeBtn = document.getElementById('closeDriverSideMenu');
+      if(closeBtn) closeBtn.addEventListener('click', closeDriverSideMenu);
     });
   </script>
   {% block scripts %}{% endblock %}
