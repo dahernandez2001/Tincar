@@ -70,7 +70,7 @@ def login():
             flash(f'👋 Bienvenido, {user[1]}', 'success')
             # Redirigir según rol
             if user[4] == 'conductor':
-                return redirect(url_for('driver_index'))
+                return redirect(url_for('driver.driver_index'))
             return redirect(url_for('dashboard'))
         else:
             flash('❌ Credenciales incorrectas.', 'warning')

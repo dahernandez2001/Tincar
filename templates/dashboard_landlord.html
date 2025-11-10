@@ -293,10 +293,16 @@
   </div>
 </main>
 
+<!-- Estilos adicionales -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+
 {% endblock %}
 
 {% block scripts %}
 <script>
+// Identificar perfil del usuario
+window.userProfile = 'landlord'; // Identificador de perfil para filtrar notificaciones
+
 // Control del menú lateral de cuenta
 document.addEventListener('DOMContentLoaded', () => {
   const openBtn = document.getElementById('openAccountMenu');
@@ -1175,4 +1181,8 @@ document.addEventListener('change', async (e)=>{
   }
 });
 </script>
+
+<!-- Sistema de calificación -->
+<script src="{{ url_for('static', filename='js/rating-system.js') }}"></script>
+
 {% endblock %}

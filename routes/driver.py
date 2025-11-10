@@ -35,7 +35,7 @@ def driver_profile():
     profile = get_driver_profile(user_id)
     if not profile:
         # si no existe, redirigir con mensaje
-        return redirect(url_for('driver_index'))
+        return redirect(url_for('driver.driver_index'))
     profile['age'] = get_driver_age(user_id)
     profile['license_validity'] = check_license_validity(user_id)
     return render_template('driver_profile_new.html', profile=profile)

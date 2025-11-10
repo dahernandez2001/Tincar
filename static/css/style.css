@@ -712,3 +712,24 @@ header nav a:hover { color: #FFB300 }
   z-index: 10001;
 }
 
+/* Ajuste del cono cuando el menú lateral del conductor está abierto desde el modal de notificaciones */
+.notification-cone-fixed.with-driver-menu {
+  right: 190px; /* Posicionarlo entre el modal y el menú lateral (380px/2) */
+  z-index: 9999; /* Entre el modal (9999) y el menú (9998) */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Ajuste del cono cuando el menú de contacto del arrendador está abierto */
+.notification-cone-fixed.with-landlord-menu {
+  right: 190px;
+  z-index: 10002; /* Por encima del modal de notificaciones */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Estilos para detalles de contacto */
+.contact-item {
+  padding: 10px;
+  background: rgba(255, 179, 0, 0.05);
+  border-radius: 8px;
+}
+

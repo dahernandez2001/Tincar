@@ -43,7 +43,7 @@
     </div>
     <hr class="my-3" style="border-color: #FFB300;">
     <div class="account-actions">
-      <a href="{{ url_for('driver_profile') }}" class="btn btn-orange w-100 mb-3">Ver perfil completo</a>
+      <a href="{{ url_for('driver.driver_profile') }}" class="btn btn-orange w-100 mb-3">Ver perfil completo</a>
       <button type="button" id="selectVehicleBtn" class="btn btn-outline-orange w-100 mb-3">¿Cuál manejas hoy?</button>
       <a href="{{ url_for('logout') }}" class="btn btn-outline-light w-100">Cerrar sesión</a>
     </div>
@@ -98,6 +98,8 @@
   </div>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index_driver.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/notifications.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
 
   <!-- Bienvenida -->
   <div class="text-center mb-4">
@@ -212,8 +214,15 @@
 
 {% block scripts %}
   {{ super() }}
+  <!-- Identificar perfil del usuario -->
+  <script>
+    window.userProfile = 'driver'; // Identificador de perfil para filtrar notificaciones
+  </script>
   <!-- Leaflet JS (mapas) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/rating-system.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/landlord-contact.js') }}"></script>
   <script src="{{ url_for('static', filename='js/driver.js') }}"></script>
   <script src="{{ url_for('static', filename='js/index_driver.js') }}"></script>
 {% endblock %}

@@ -124,6 +124,15 @@
       menu.classList.add('active');
       // ensure it is visible (same behavior as account-side-menu.active)
       menu.style.right = '0';
+      
+      // Ajustar z-index del menú lateral para que esté al mismo nivel que el modal de notificaciones
+      menu.style.zIndex = '9998';
+      
+      // Mover el cono de notificaciones hacia la izquierda (entre modal y menú)
+      const notificationCone = document.getElementById('notificationIcon');
+      if (notificationCone) {
+        notificationCone.classList.add('with-driver-menu');
+      }
     }
 
     function closeDriverSideMenu(){
@@ -131,6 +140,15 @@
       if(!menu) return;
       menu.classList.remove('active');
       menu.style.right = '-380px';
+      
+      // Restaurar z-index original
+      menu.style.zIndex = '';
+      
+      // Restaurar posición del cono
+      const notificationCone = document.getElementById('notificationIcon');
+      if (notificationCone) {
+        notificationCone.classList.remove('with-driver-menu');
+      }
     }
 
     document.addEventListener('DOMContentLoaded', ()=>{

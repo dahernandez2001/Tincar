@@ -15,6 +15,7 @@ from models import (
     mark_driver_arrived,
     finish_reservation,
     add_review,
+    update_user_rating,
     delete_notifications_for_reservation
 )
 
@@ -595,5 +596,68 @@ def get_reservation_details(reservation_id):
             'penalty_amount': reservation.get('penalty_amount', 0) or 0,
             'penalty_active': reservation.get('penalty_active', 0) or 0
         })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@reservations_bp.route('/api/reviews/create', methods=['POST'])
+def create_review():
+    """API: crear una calificación y eliminar notificaciones de la reserva"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'error': 'not authenticated'}), 401
+    
+    try:
+        data = request.get_json()
+        reservation_id = data.get('reservation_id')
+        target_user_id = data.get('target_user_id')
+        rating = data.get('rating')
+        comment = data.get('comment', '')
+        
+        if not reservation_id or not target_user_id or not rating:
+            return jsonify({'success': False, 'error': 'Faltan datos requeridos'}), 400
+        
+        # Validar que el rating sea entre 1 y 5
+        if not isinstance(rating, int) or rating < 1 or rating > 5:
+            return jsonify({'success': False, 'error': 'Rating debe ser entre 1 y 5'}), 400
+        
+        # Obtener la reserva para verificar permisos y obtener parking_id
+        reservation = get_reservation(reservation_id)
+        if not reservation:
+            return jsonify({'success': False, 'error': 'Reserva no encontrada'}), 404
+        
+        # Verificar que el usuario es parte de la reserva
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT owner_id FROM parkings WHERE id = ?', (reservation['parking_id'],))
+        parking = cursor.fetchone()
+        conn.close()
+        
+        if not parking:
+            return jsonify({'success': False, 'error': 'Parqueadero no encontrado'}), 404
+        
+        owner_id = parking[0]
+        driver_id = reservation['driver_id']
+        
+        # Verificar que el usuario es conductor o arrendador de esta reserva
+        if session['user_id'] not in [driver_id, owner_id]:
+            return jsonify({'success': False, 'error': 'No autorizado'}), 403
+        
+        # Agregar review
+        add_review(
+            reviewer_id=session['user_id'],
+            driver_id=target_user_id,
+            parking_id=reservation['parking_id'],
+            rating=rating,
+            comment=comment
+        )
+        
+        # Actualizar rating promedio del usuario
+        update_user_rating(target_user_id)
+        
+        # Eliminar notificaciones de esta reserva
+        delete_notifications_for_reservation(reservation_id)
+        
+        return jsonify({'success': True, 'message': 'Calificación guardada exitosamente'})
+        
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500

@@ -73,13 +73,6 @@ app.register_blueprint(parkings_bp)
 app.register_blueprint(reservations_bp)
 app.register_blueprint(notifications_bp)
 
-# Mantener compatibilidad con llamadas antiguas a url_for('driver_index') u otras
-# creando alias de endpoints sin el prefijo del blueprint.
-for bp in (driver_bp, parkings_bp, reservations_bp, notifications_bp):
-    for endpoint in bp.view_functions:
-        full = f"{bp.name}.{endpoint}"
-        if full in app.view_functions:
-            app.view_functions[endpoint] = app.view_functions[full]
 DB_NAME = os.path.join(BASE_DIR, 'database', 'tincar.db')
 
 # Alias a la conexión centralizada en models.py para unificar el acceso a la DB
@@ -95,7 +88,7 @@ def home():
     if 'user_id' in session:
         role = session.get('role')
         if role == 'conductor':
-            return redirect(url_for('driver_index'))
+            return redirect(url_for('driver.driver_index'))
         elif role == 'arrendador':
             return redirect(url_for('landlord_index'))
     
@@ -252,7 +245,7 @@ def driver_profile():
     
     if not profile:
         flash('No se pudo cargar el perfil', 'error')
-        return redirect(url_for('driver_index'))
+        return redirect(url_for('driver.driver_index'))
     
     # Agregar datos calculados
     profile['age'] = get_driver_age(user_id)
@@ -262,112 +255,7 @@ def driver_profile():
 
 
 # Parkings routes moved to `routes/parkings.py`
-
-
-@app.route('/parkings/<int:parking_id>/active', methods=['POST'])
-def set_parking_active(parking_id):
-    """Establece el campo active para un parking (payload JSON: { active: true/false })."""
-    if 'user_id' not in session:
-        return {'error': 'not authenticated'}, 401
-    data = request.get_json(silent=True) or {}
-    # allow form-encoded too
-    if not data and request.form.get('active') is not None:
-        val = request.form.get('active')
-        data['active'] = val.lower() in ('1','true','yes','on')
-
-    if 'active' not in data:
-        return {'error': 'missing active'}, 400
-    try:
-        active_value = 1 if bool(data['active']) else 0
-        conn = get_connection()
-        cur = conn.cursor()
-        # Ensure owner owns this parking
-        cur.execute('SELECT owner_id FROM parkings WHERE id = ?', (parking_id,))
-        row = cur.fetchone()
-        if not row:
-            conn.close()
-            return {'error': 'not found'}, 404
-        if row[0] != session['user_id']:
-            conn.close()
-            return {'error': 'forbidden'}, 403
-        cur.execute('UPDATE parkings SET active = ? WHERE id = ?', (active_value, parking_id))
-        conn.commit()
-        # fetch updated parking info to return
-        cur.execute('SELECT id, name, address, latitude, longitude FROM parkings WHERE id = ?', (parking_id,))
-        parking_info = cur.fetchone()
-        conn.close()
-        if not parking_info:
-            return {'error': 'not found'}, 404
-        return {
-            'success': True,
-            'id': parking_info[0],
-            'name': parking_info[1],
-            'address': parking_info[2],
-            'latitude': parking_info[3],
-            'longitude': parking_info[4],
-            'active': bool(active_value)
-        }
-    except Exception as e:
-        return {'error': str(e)}, 500
-
-
-@app.route('/parkings/<int:parking_id>', methods=['GET'])
-def parking_detail(parking_id):
-    if 'user_id' not in session:
-        return jsonify({'error':'not authenticated'}), 401
-    try:
-        p = get_parking(parking_id)
-        if not p:
-            return jsonify({'error':'not found'}), 404
-        # Only allow owner to view details
-        if p['owner_id'] != session['user_id']:
-            return jsonify({'error':'forbidden'}), 403
-        return jsonify({'success': True, 'parking': p})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-
-@app.route('/parkings/<int:parking_id>/update', methods=['POST'])
-def parking_update(parking_id):
-    if 'user_id' not in session:
-        return jsonify({'error':'not authenticated'}), 401
-    # collect fields
-    form = request.form
-    data = {}
-    for key in ['name','phone','email','address','department','city','housing_type','size','features']:
-        if key in form:
-            data[key] = form.get(key)
-    # permitir actualizar coordenadas desde el modal de edición
-    for key in ['latitude','longitude']:
-        if key in form:
-            # intentar parsear a float si existe
-            raw = form.get(key)
-            try:
-                data[key] = float(raw) if raw not in (None, '', 'None') else None
-            except ValueError:
-                data[key] = None
-
-    # Actualizar en la base de datos
-    try:
-        conn = get_connection()
-        cur = conn.cursor()
-        # Ensure owner owns this parking
-        cur.execute('SELECT owner_id FROM parkings WHERE id = ?', (parking_id,))
-        row = cur.fetchone()
-        if not row:
-            conn.close()
-            return {'error': 'not found'}, 404
-        if row[0] != session['user_id']:
-            conn.close()
-            return {'error': 'forbidden'}, 403
-        # Actualizar solo los campos que fueron enviados
-        set_clause = ', '.join(f"{k} = ?" for k in data.keys())
-        cur.execute(f'UPDATE parkings SET {set_clause} WHERE id = ?', (*data.values(), parking_id))
-        conn.commit()
-        conn.close()
-        return jsonify({'success': True})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+# (/parkings/<id>/active, /parkings/<id>, /parkings/<id>/update - all in parkings blueprint)
 
 
 @app.route('/profile')
@@ -421,59 +309,6 @@ def profile_update():
 
 @app.route('/api/users/profile', methods=['GET'])
 def api_get_user_profile():
-    """API del conductor: crear una nueva reserva."""
-    if 'user_id' not in session:
-        return jsonify({'success': False, 'error': 'not authenticated'}), 401
-    
-    data = request.get_json(silent=True) or {}
-    parking_id = data.get('parking_id')
-    duration_minutes = data.get('duration_minutes', 10)
-    eta_minutes = data.get('eta_minutes', 0)
-    
-    if not parking_id:
-        return jsonify({'success': False, 'error': 'Se requiere parking_id'}), 400
-    
-    try:
-        # Verificar si ya existe una reserva activa para este parqueadero
-        existing = get_reservation_by_driver_and_parking(session['user_id'], parking_id)
-        if existing and existing.get('status') not in ['cancelled', 'completed']:
-            # Forzar notificación si no existe
-            from models import add_notification, get_notifications_by_user
-            notifications = get_notifications_by_user(session['user_id'])
-            notif_exists = any(n['type'] == 'active_reservation' and n['reservation_id'] == existing['id'] for n in notifications)
-            if not notif_exists:
-                # Obtener nombre del garaje
-                from models import get_parking
-                parking = get_parking(parking_id)
-                parking_name = parking['name'] if parking and 'name' in parking else 'el garaje'
-                add_notification(
-                    user_id=session['user_id'],
-                    message=f'Tienes una reserva activa en {parking_name}.',
-                    type='active_reservation',
-                    reservation_id=existing['id'],
-                    owner_id=parking['owner_id'] if parking and 'owner_id' in parking else None,
-                    eta=existing.get('eta_minutes', 0),
-                    extra_data=f'{{"parking_name": "{parking_name}", "duration": {existing.get("duration_minutes", 10)}}}'
-                )
-            return jsonify({'success': False, 'error': 'Ya tienes una reserva activa para este parqueadero', 'reservation': existing}), 400
-        # Crear la reserva
-        reservation = add_reservation(
-            driver_id=session['user_id'],
-            parking_id=parking_id,
-            duration_minutes=duration_minutes,
-            eta_minutes=eta_minutes
-        )
-        if not reservation:
-            return jsonify({'success': False, 'error': 'No se pudo crear la reserva'}), 500
-        return jsonify({
-            'success': True,
-            'reservation': reservation
-        })
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/users/profile', methods=['GET'])
-def api_get_user_profile():
     """API del usuario: obtener información del perfil."""
     if 'user_id' not in session:
         return jsonify({'success': False, 'error': 'not authenticated'}), 401
@@ -502,22 +337,45 @@ def api_get_user_profile_by_id(user_id):
     if 'user_id' not in session:
         return jsonify({'success': False, 'error': 'not authenticated'}), 401
     try:
-        # Usar get_driver_profile si existe (contiene phone, emergency_phone, rating, total_reservations)
-        from models import get_driver_profile
+        # Intentar obtener el perfil completo del driver
+        from models import get_driver_profile, get_connection
         profile = get_driver_profile(user_id)
+        
+        # Si no existe como driver, obtener como usuario normal
         if not profile:
-            return jsonify({'success': False, 'error': 'User not found'}), 404
+            conn = get_connection()
+            cursor = conn.cursor()
+            cursor.execute('SELECT id, name, email, phone, profile_photo, rating FROM users WHERE id = ?', (user_id,))
+            row = cursor.fetchone()
+            conn.close()
+            
+            if not row:
+                return jsonify({'success': False, 'error': 'User not found'}), 404
+            
+            profile = {
+                'id': row[0],
+                'name': row[1],
+                'email': row[2],
+                'phone': row[3],
+                'profile_photo': row[4],
+                'rating': row[5] or 0,
+                'emergency_phone': None,
+                'total_reservations': 0
+            }
+        
         # Construir respuesta pública (solo campos necesarios para el menú lateral)
         return jsonify({
             'success': True,
-            'id': profile.get('id'),
-            'name': profile.get('name'),
-            'email': profile.get('email'),
-            'phone': profile.get('phone'),
-            'emergency_phone': profile.get('emergency_phone'),
-            'profile_photo': profile.get('profile_photo'),
-            'rating': profile.get('rating') or 0,
-            'total_reservations': profile.get('total_reservations') or 0
+            'user': {
+                'id': profile.get('id'),
+                'name': profile.get('name'),
+                'email': profile.get('email'),
+                'phone': profile.get('phone'),
+                'emergency_phone': profile.get('emergency_phone'),
+                'profile_photo': profile.get('profile_photo'),
+                'rating': profile.get('rating') or 0,
+                'total_reservations': profile.get('total_reservations') or 0
+            }
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500

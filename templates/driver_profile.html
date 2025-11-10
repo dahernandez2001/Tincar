@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/driver_profile.css') }}">
 
 <div class="profile-container">
-    <a href="{{ url_for('driver_index') }}" class="back-btn">← Volver al Inicio</a>
+    <a href="{{ url_for('driver.driver_index') }}" class="back-btn">← Volver al Inicio</a>
     
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
