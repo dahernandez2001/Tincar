@@ -107,6 +107,7 @@ p {
   backdrop-filter: blur(5px);
   width: 100%;
   max-width: 420px;
+  position: relative;
 }
 
 .login-logo {
@@ -438,6 +439,7 @@ header nav a:hover { color: #FFB300 }
   backdrop-filter: blur(5px);
   width: 100%;
   max-width: 420px;
+  position: relative;
 }
 
 .register-logo {

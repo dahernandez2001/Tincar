@@ -215,7 +215,7 @@ function renderNotifications() {
       
       html += `
         <div class="notification-item notification-driver interface-segunda ${unreadClass}" data-id="${notification.id}">
-          <div class="notification-header-driver notification-header-active">🚗 VEHÍCULO GUARDADO</div>
+          <div class="notification-header-driver notification-header-active">VEHÍCULO GUARDADO</div>
           <p>Tu vehículo guardado en garaje de <strong>${ownerName}</strong>. Tiempo: <span id="timer-driver-${resId}" class="time-remaining" data-duration="${durationMinutes}" data-occupied="${occupiedSince}">--:--:--</span></p>
           <hr>
           <button class="btn btn-warning me-2" onclick="openLandlordContactMenu(${ownerId}, '${ownerNameEscaped}')">Contacto</button>
@@ -274,7 +274,7 @@ function renderNotifications() {
       const driverId = extraData.driver_id || 0;
       const driverNameEscaped = driverName.replace(/'/g, "\\'");
       
-      console.log('✅ INTERFAZ 3 ARRENDADOR:', {
+      console.log('INTERFAZ 3 ARRENDADOR:', {
         driverName,
         totalAmount,
         driverId
@@ -302,7 +302,7 @@ function renderNotifications() {
       const ownerName = extraData.owner_name || 'el arrendador';
       const ownerNameEscaped = ownerName.replace(/'/g, "\\'");
       
-      console.log('✅ INTERFAZ 3 CONDUCTOR:', {
+      console.log('INTERFAZ 3 CONDUCTOR:', {
         parkingName,
         totalAmount,
         ownerId,

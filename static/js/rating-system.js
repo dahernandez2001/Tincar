@@ -12,7 +12,7 @@
  */
 function openRatingModal(reservationId, targetUserId, targetUserName, userType) {
     // Validar parámetros
-    console.log('🎯 Abriendo modal de calificación:', {
+    console.log('Abriendo modal de calificación:', {
         reservationId,
         targetUserId,
         targetUserName,
@@ -110,7 +110,7 @@ function submitRating(reservationId, targetUserId, userType) {
         return;
     }
     
-    console.log('📤 Enviando calificación:', {
+    console.log('Enviando calificación:', {
         reservation_id: reservationId,
         target_user_id: targetUserId,
         rating: rating,

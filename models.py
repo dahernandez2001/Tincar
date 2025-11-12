@@ -611,6 +611,21 @@ def get_reservation(id):
         out['created_at'] = None
     return out
 
+
+def has_active_reservations(user_id):
+    """Verifica si el usuario tiene reservas activas (pending, arrived, active)"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT COUNT(*) FROM reservations 
+        WHERE driver_id = ? 
+        AND status IN ('pending', 'arrived', 'active')
+    ''', (user_id,))
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count > 0
+
+
 def cancel_reservation(reservation_id, cancelled_by_id):
     """Cancela una reserva y envía notificaciones apropiadas.
     cancelled_by_id: ID del usuario que cancela (puede ser conductor u arrendador)"""

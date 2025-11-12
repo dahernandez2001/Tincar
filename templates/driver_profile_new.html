@@ -321,6 +321,7 @@
             <!-- BOTONES -->
             <div style="text-align: center;">
                 <div class="btn-group">
+                    <button type="button" class="delete-account-btn" id="deleteAccountBtn">Eliminar cuenta</button>
                     <button type="button" class="edit-btn" id="editBtn">Editar</button>
                     <button type="submit" class="save-btn" id="saveBtn" style="display: none;">Guardar Cambios</button>
                 </div>
@@ -332,6 +333,43 @@
 <script>
 let vehicleCounter = 1;
 let isEditMode = false;
+
+// Delete account
+document.getElementById('deleteAccountBtn').addEventListener('click', function() {
+    const confirmed = confirm('¿Estás seguro de que deseas eliminar tu cuenta?\n\nEsta acción es irreversible y se eliminarán todos tus datos.\n\n⚠️ ADVERTENCIA: No podrás eliminar tu cuenta si tienes reservas activas.');
+    
+    if (!confirmed) {
+        return;
+    }
+    
+    // Segundo nivel de confirmación
+    const finalConfirm = confirm('ÚLTIMA CONFIRMACIÓN:\n\n¿Realmente deseas eliminar tu cuenta de forma permanente?');
+    
+    if (!finalConfirm) {
+        return;
+    }
+    
+    // Enviar solicitud de eliminación
+    fetch('/api/driver/delete-account', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else {
+            alert('Tu cuenta ha sido eliminada exitosamente.');
+            window.location.href = '/';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al eliminar la cuenta. Por favor intenta nuevamente.');
+    });
+});
 
 // Toggle edit mode
 document.getElementById('editBtn').addEventListener('click', function() {

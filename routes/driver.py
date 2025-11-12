@@ -214,3 +214,48 @@ def api_select_vehicle():
         return jsonify({'success': True, 'message': f'Vehículo {plate} seleccionado'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@driver_bp.route('/api/driver/delete-account', methods=['DELETE'])
+def api_delete_account():
+    """Elimina la cuenta del conductor y todos sus datos asociados"""
+    try:
+        if 'user_id' not in session:
+            return jsonify({'error': 'No autorizado'}), 403
+        
+        user_id = session['user_id']
+        
+        from models import get_connection, has_active_reservations
+        
+        # Verificar si tiene reservas activas
+        if has_active_reservations(user_id):
+            return jsonify({
+                'error': 'No puedes eliminar tu cuenta mientras tengas reservas activas. Por favor finaliza o cancela tus reservas primero.'
+            }), 400
+        
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        try:
+            # Eliminar datos relacionados (en orden para respetar foreign keys)
+            cursor.execute('DELETE FROM notifications WHERE user_id = ?', (user_id,))
+            cursor.execute('DELETE FROM reviews WHERE reviewer_id = ? OR driver_id = ?', (user_id, user_id))
+            cursor.execute('DELETE FROM reservations WHERE driver_id = ?', (user_id,))
+            cursor.execute('DELETE FROM parkings WHERE owner_id = ?', (user_id,))
+            cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
+            
+            conn.commit()
+            
+            # Cerrar sesión
+            session.clear()
+            
+            return jsonify({'message': 'Cuenta eliminada exitosamente'}), 200
+            
+        except Exception as e:
+            conn.rollback()
+            return jsonify({'error': f'Error al eliminar la cuenta: {str(e)}'}), 500
+        finally:
+            conn.close()
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
