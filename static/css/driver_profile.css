@@ -1,0 +1,345 @@
+.profile-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #FFB300 0%, #E88E2E 100%);
+    color: #1A1919;
+    padding: 30px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+}
+
+.profile-photo-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.photo-upload-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: #2C2C2C;
+    color: #FFB300;
+    border: 2px solid #FFB300;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.edit-btn {
+    background: #2C2C2C;
+    color: #FFB300;
+    padding: 15px 50px;
+    border: 2px solid #FFB300;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.edit-btn:hover {
+    background: #FFB300;
+    color: #1A1919;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 179, 0, 0.4);
+}
+
+.vehicle-item {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    position: relative;
+}
+
+.vehicle-item h4 {
+    color: #FFB300;
+    margin-bottom: 15px;
+}
+
+.remove-vehicle-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #F44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-vehicle-btn {
+    background: #FFB300;
+    color: #1A1919;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+}
+
+.add-vehicle-btn:hover {
+    background: #E88E2E;
+    transform: translateY(-2px);
+}
+
+.pdf-upload-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.pdf-file-name {
+    display: inline-block;
+    margin-left: 10px;
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.photo-upload-btn:hover {
+    background: #FFB300;
+    color: #2C2C2C;
+    transform: scale(1.1);
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: #1A1919;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #2C2C2C;
+    margin-top: 5px;
+}
+
+.profile-body {
+    background: #fff;
+    padding: 30px;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    color: #FFB300;
+    font-size: 1.5em;
+    margin: 30px 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFB300;
+}
+
+.section-title:first-child {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #FFB300;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.1);
+}
+
+.form-control:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.verification-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.badge-verified {
+    background: #4CAF50;
+    color: white;
+}
+
+.badge-pending {
+    background: #FF9800;
+    color: white;
+}
+
+.badge-rejected {
+    background: #F44336;
+    color: white;
+}
+
+.document-upload {
+    margin-top: 15px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 2px dashed #FFB300;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.upload-btn {
+    background: #FFB300;
+    color: #1A1919;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 5px;
+}
+
+.upload-btn:hover {
+    background: #E88E2E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
+}
+
+.save-btn {
+    background: #FFB300;
+    color: #1A1919;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 30px;
+}
+
+.save-btn:hover {
+    background: #E88E2E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 179, 0, 0.4);
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border-left: 4px solid #ffc107;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #f44336;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #4CAF50;
+}
+
+.license-warning {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 4px solid #ffc107;
+}
+
+.back-btn {
+    background: #2C2C2C;
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background: #1A1919;
+    color: #FFB300;
+    transform: translateX(-5px);
+}
+
+.preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 2px solid #FFB300;
+}

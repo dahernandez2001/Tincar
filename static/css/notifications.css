@@ -1,0 +1,367 @@
+.notification-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-icon img {
+  width: 100%;
+  height: auto;
+  max-width: 30px;
+  max-height: 30px;
+  filter: brightness(0) invert(1);
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #E88E2E;
+  color: #1A1919;
+  border-radius: 50%;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 16px;
+  height: 16px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.notification-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2C2C2C;
+  border: 2px solid #FFB300;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 1001;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.notification-item {
+  background-color: #1A1919;
+  border: 1px solid #2C2C2C;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+  border-color: #E88E2E;
+}
+
+.notification-item.unread {
+  background-color: #2C2C2C;
+  border: 2px solid #FFB300;
+  box-shadow: 0 0 12px rgba(255, 179, 0, 0.3);
+}
+
+.notification-content {
+  margin-bottom: 10px;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.notification-actions button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-contact {
+  background-color: #FFB300;
+  color: #1A1919;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  background-color: #E88E2E;
+  color: #1A1919;
+}
+
+.btn-arrived {
+  background-color: #FFB300;
+  color: #1A1919;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-arrived:hover {
+  background-color: #E88E2E;
+  color: #1A1919;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  border: 2px solid #FFB300;
+  color: #FFB300;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #E88E2E;
+  border-color: #E88E2E;
+  color: #1A1919;
+}
+
+.driver-profile-modal {
+  background-color: #2C2C2C;
+  border: 2px solid #FFB300;
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.driver-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.driver-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FFEFCA;
+  border: 2px solid #FFB300;
+}
+
+.driver-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFB300;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #FFEFCA;
+}
+
+/* ==================== ESTILOS PARA 3 INTERFACES ==================== */
+.interface-header {
+  background-color: #FFB300;
+  color: #1A1919;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+  margin: -15px -15px 10px -15px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.interface-primera {
+  border-left: 4px solid #FFB300;
+}
+
+.interface-segunda {
+  border-left: 4px solid #E88E2E;
+}
+
+.interface-tercera {
+  border-left: 4px solid #FFB300;
+}
+
+/* Estilos para alertas de tiempo extra */
+.alert-success-custom {
+  background-color: rgba(255, 179, 0, 0.15);
+  border: 1px solid #FFB300;
+  border-radius: 8px;
+  padding: 15px;
+  color: #FFEFCA;
+}
+
+.alert-danger-custom {
+  background-color: rgba(232, 142, 46, 0.15);
+  border: 1px solid #E88E2E;
+  border-radius: 8px;
+  padding: 15px;
+  color: #FFEFCA;
+}
+
+/* ==================== ESTILOS NOTIFICACIONES DEL CONDUCTOR ==================== */
+/* 📦 CONTENEDOR GENERAL DEL BUZÓN DEL CONDUCTOR */
+.notification-driver {
+  background-color: #2c2c2c;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 20px rgba(255, 179, 0, 0.2);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Bordes según interfaz para conductor */
+.notification-driver.interface-primera { 
+  border-left: 4px solid #FFB300;
+}
+
+.notification-driver.interface-segunda { 
+  border-left: 4px solid #E88E2E;
+}
+
+.notification-driver.interface-tercera { 
+  border-left: 4px solid #FFB300;
+}
+
+/* 🔝 ENCABEZADO DEL BUZÓN DEL CONDUCTOR */
+.notification-header-driver {
+  background-color: #FFB300;
+  color: #1A1919;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin: -16px -16px 12px -16px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* 💬 TEXTO PRINCIPAL DE LA NOTIFICACIÓN DEL CONDUCTOR */
+.notification-driver p {
+  color: #dcdcdc;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.notification-driver strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ➖ LÍNEA SEPARADORA DEL CONDUCTOR */
+.notification-driver hr {
+  border: 0;
+  border-top: 1px solid #3a3a3a;
+  margin: 12px 0;
+}
+
+/* 🔘 BOTONES DE ACCIÓN DEL CONDUCTOR */
+.notification-driver .btn {
+  background-color: #FFB300;
+  border: none;
+  color: #1A1919;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.notification-driver .btn:hover {
+  background-color: #e88e2e;
+  transform: translateY(-1px);
+}
+
+/* Botón verde (Ya llegué / Llegué a mi vehículo) */
+.notification-driver .btn-success {
+  background-color: transparent;
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+}
+
+.notification-driver .btn-success:hover {
+  background-color: transparent;
+  color: #4CAF50;
+  transform: translateY(-1px);
+}
+
+/* Botón amarillo de advertencia (Contacto) */
+.notification-driver .btn-warning {
+  background-color: #FFB300;
+  border: none;
+  color: #1A1919;
+}
+
+.notification-driver .btn-warning:hover {
+  background-color: #e88e2e;
+  transform: translateY(-1px);
+}
+
+/* Botón de cancelar (outline) */
+.notification-driver .btn-outline-light {
+  background-color: transparent;
+  border: 2px solid #FFB300;
+  color: #FFB300;
+}
+
+.notification-driver .btn-outline-light:hover {
+  background-color: #ffb30000;
+  color: #FFB300;
+  transform: translateY(-1px);
+}
+
+/* ==================== VARIANTES DE HEADERS ==================== */
+.interface-header-success,
+.notification-header-success {
+  background-color: #4CAF50 !important;
+  color: #1A1919 !important;
+}
+
+.interface-header-warning,
+.notification-header-warning {
+  background-color: #E88E2E !important;
+  color: #1A1919 !important;
+}
+
+.interface-header-active,
+.notification-header-active {
+  background-color: #4CAF50 !important;
+  color: #1A1919 !important;
+}
+
+/* ==================== ESTILO ESPECIAL PARA CONFIRMACIÓN ==================== */
+.at-vehicle-confirmation .interface-header {
+  background-color: #2C2C2C !important;
+  color: #FFB300 !important;
+  border: 2px solid #E88E2E;
+}
+
+/* ==================== MONTO TOTAL ==================== */
+.total-amount {
+  color: #FFB300;
+  font-size: 1.2em;
+  font-weight: bold;
+}

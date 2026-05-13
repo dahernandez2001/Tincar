@@ -1,0 +1,737 @@
+body {
+  background-color: #1A1919;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+/* Styles from user snippet */
+/* base */
+body { font-family: "Poppins", sans-serif; background-color: #1a1919; }
+
+.navbar-brand span { color: #ffb300; }
+.nav-link.active, .nav-link:hover { color: #ffb300 !important; }
+.card { background-color: #1e1e1e; }
+.info-box { min-width: 120px; }
+.profile-circle { width: 80px; height: 80px; border-radius: 50%; background-color: #d2a676; }
+.map-container iframe { border-radius: 20px; overflow: hidden; }
+.btn-warning { background-color: #ffb300; color: #000; }
+.btn-warning:hover { background-color: #e88e2a; color: #fff; }
+
+/* small adjustments to avoid clashing with existing rules */
+.card.bg-black { background-color: #0f0f0f !important; }
+.map-container { margin-top: 18px; }
+
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url("../static/img/fondo.jpg") center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+h1 {
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+p {
+  color: #FFEFCB;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn-warning {
+  background-color: #FFB300;
+  border: none;
+  color: #1A1919;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+  background-color: #E88E2A;
+  color: #fff;
+}
+
+.btn-outline-light {
+  border: 2px solid #FFB300;
+  background: transparent;
+  color: #FFB300;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background-color: #E88E2E;
+  border-color: #E88E2E;
+  color: #1A1919;
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* ---------- LOGIN PAGE ---------- */
+
+.login-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url("/static/img/fondo.jpg") center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background-color: rgba(44, 44, 44, 0.85);
+  backdrop-filter: blur(5px);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+.login-logo {
+  width: 120px;
+  height: auto;
+}
+
+.form-control {
+  background-color: #1A1919;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.form-control:focus {
+  border-color: #FFB300;
+  box-shadow: 0 0 8px rgba(255, 179, 0, 0.5);
+}
+
+.btn-warning {
+  background-color: #FFB300;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #E88E2A;
+}
+
+.text-warning:hover {
+  text-decoration: underline;
+}
+
+/* ---------- DRIVER VIEW STYLES ---------- */
+.driver-wrapper {
+  background: rgba(12,12,12,0.85);
+  border-radius: 18px;
+  padding: 28px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.driver-nav a{ color: #fff; margin-right: 18px; text-decoration:none; opacity:0.9 }
+.driver-nav a:hover{ color:#FFB300 }
+
+.driver-title{ font-size:44px; font-weight:800; margin:6px 0 }
+.driver-subtitle{ color:#d8d8d8; margin-bottom:6px }
+
+.driver-avatar{ width:92px; height:92px; border-radius:50%; display:inline-block; border:6px solid rgba(0,0,0,0.25); background:#c9b095 }
+
+.driver-stats{ display:flex; align-items:center }
+.rating-box{ background: rgba(30,30,30,0.9); padding:14px 16px; border-radius:12px; width:140px; color:#fff }
+.rating-box .rating-row{ display:flex; align-items:center; gap:8px; font-size:20px; font-weight:700 }
+.rating-box .star{ color:#FFD34D; font-size:22px }
+.rating-box hr{ border-color: rgba(0,0,0,0.6); margin:8px 0 }
+.rating-box .reservas{ font-size:20px; font-weight:700; color:#fff; text-align:center }
+
+.map-card{ margin-top:14px; background: linear-gradient(180deg, rgba(18,18,18,0.95), rgba(22,22,22,0.95)); padding:18px }
+.map-viewport iframe{ border-radius:12px; border: 6px solid rgba(0,0,0,0.35); }
+
+/* New driver exact-match styles */
+.driver-outer{ background: transparent; padding: 18px }
+.driver-inner{ background: rgba(8,8,8,0.75); border-radius: 20px; padding: 28px; border: 1px solid rgba(255,255,255,0.03); }
+.driver-logo{ height:44px; margin-right:10px }
+.driver-top{ gap: 18px }
+.driver-title{ font-size:48px; font-weight:800; margin:6px 0; color:#fff }
+.driver-subtitle{ color:#d0d0d0; margin-bottom:0 }
+
+.driver-right{ min-width:260px }
+.rating-box-outer{ display:flex; align-items:center; justify-content:center }
+.rating-box-inner{ width:160px; background: rgba(30,30,30,0.95); border-radius:12px; padding:12px 12px; box-shadow: inset 0 -6px 0 rgba(0,0,0,0.25); }
+.rating-top{ display:flex; justify-content:space-between; align-items:center }
+.rating-top .small{ color:#cfcfcf }
+.star{ color:#FFD34D; font-size:20px }
+.rating-value{ font-weight:800; font-size:20px }
+.rating-divider{ height:2px; background: rgba(0,0,0,0.6); margin:10px 0; }
+.rating-bottom .small{ color:#cfcfcf }
+.reservas{ font-size:20px; font-weight:800; margin-top:4px }
+
+.avatar-area{ display:flex; flex-direction:column; align-items:center }
+.avatar-wrap{ width:96px; height:96px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:transparent; }
+.avatar-circle{ width:96px; height:96px; border-radius:50%; display:block }
+.btn-profile{ background:#FFB300; color:#111; padding:8px 14px; border-radius:10px; font-weight:700; display:inline-block }
+
+.map-card{ margin-top:18px; background: transparent; padding: 0 }
+.map-frame{ border-radius:18px; overflow:hidden; border:10px solid rgba(0,0,0,0.45); box-shadow: 0 6px 30px rgba(0,0,0,0.6) inset }
+
+@media (max-width: 768px){
+  .driver-title{ font-size:32px }
+  .avatar-circle{ width:76px; height:76px }
+  .driver-inner{ padding:18px }
+  .driver-right{ min-width: auto }
+  .driver-nav{ display:none }
+}
+
+/* responsive */
+@media (max-width: 768px){
+  .driver-title{ font-size:32px }
+  .driver-avatar{ width:76px; height:76px }
+  .driver-wrapper{ padding:18px }
+}
+
+
+/* Landlord (arrendador) dashboard styles */
+.landlord-header h2 {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.landlord-header p {
+  color: #e6e6e6;
+}
+
+.landlord-card {
+  background-color: rgba(20,20,20,0.85);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.parkings-table thead th {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: #ddd;
+  font-size: 13px;
+}
+
+.parkings-table tbody td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+.btn-orange {
+  background-color: #FFB300;
+  color: #1A1919;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-orange:hover { background-color: #E88E2E; color: #1A1919; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(255,179,0,0.3); }
+
+.btn-success {
+  background-color: #FFB300;
+  color: #1A1919;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  border: 2px solid #FFB300;
+}
+
+.btn-success:hover { background-color: #E88E2E; color: #1A1919; border-color: #E88E2E; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(255,179,0,0.3); }
+
+.btn-danger {
+  background-color: transparent;
+  color: #E88E2E;
+  border: 2px solid #E88E2E;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover { background-color: #E88E2E; color: #1A1919; border-color: #E88E2E; transform: translateY(-1px); }
+
+.table-responsive { scrollbar-width: thin; }
+
+.form-check-input:checked {
+  background-color: #FFB300;
+  border-color: #FFB300;
+}
+.form-check-input:focus {
+  border-color: #E88E2E;
+  box-shadow: 0 0 0 0.2rem rgba(255,179,0,0.25);
+}
+
+.ver-todos { display:flex; justify-content:center; }
+
+/* inner border look used in mockup */
+.inner-border {
+  background: linear-gradient(180deg, rgba(16,16,16,0.95), rgba(18,18,18,0.95));
+  border: 2px solid rgba(243, 209, 160, 0.9); /* warm light border */
+  border-radius: 6px;
+}
+
+/* header/nav */
+header { border-bottom: 1px solid rgba(255,255,255,0.03); margin-bottom: 18px; }
+header nav a { color: rgba(255,255,255,0.8); text-decoration:none; }
+header nav a:hover { color: #FFB300 }
+
+/* small adjustments for table appearance */
+.parkings-table thead th { padding: 12px 10px; }
+.parkings-table tbody td { padding: 12px 10px; }
+
+/* Make parking name clearly clickable */
+.parking-name { cursor: pointer; }
+.parking-name:hover { text-decoration: underline; }
+
+.modal-card .badge.btn-orange { background-color: #FFB300; color: #1A1919; }
+/* Ajuste: usar texto blanco en inputs del modal para mejor legibilidad sobre fondo oscuro */
+#driverParkingModal .modal-card .form-control[disabled], #driverParkingModal .modal-card .form-control { color: #FFFFFF; }
+.parking-status, .parking-time { color: #FFB300; font-weight: 600; }
+
+/* Aumentar especificidad y forzar visibilidad en la tabla de arrendador
+   Algunos temas/utility classes (como .text-muted) pueden bajar contraste
+   o aplicar estilos que hagan que el texto no se vea; estas reglas garantizan
+   que Estado / Tiempo sean claramente legibles sobre el fondo oscuro. */
+.parkings-table tbody td.parking-status,
+.parkings-table tbody td.parking-time,
+.parkings-table tbody td .parking-status,
+.parkings-table tbody td .parking-time,
+.parkings-table tbody td .parking-time span {
+  color: #FFB300 !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+}
+
+/* Si el estilo .text-muted aplica un color con mucha transparencia,
+   esta regla lo anula y evita que el texto quede visualmente oculto. */
+.parkings-table tbody td.text-muted.small.parking-status {
+  color: #FFB300 !important;
+  opacity: 1 !important;
+}
+
+/* custom scrollbar for the inner table */
+.table-responsive::-webkit-scrollbar { height: 8px; width:10px }
+.table-responsive::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px }
+.table-responsive::-webkit-scrollbar-track { background: rgba(0,0,0,0.12); border-radius: 8px }
+
+/* Modal overlay + zoom */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26,25,25,0.65);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+}
+.modal-overlay.open { display:flex; }
+.modal-card {
+  width: 90%;
+  max-width: 920px;
+  background: #2C2C2C;
+  border: 2px solid #FFB300;
+  border-radius: 12px;
+  transform: scale(0.85);
+  transition: transform 220ms ease, opacity 220ms ease;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,179,0,0.15);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+}
+.modal-overlay.open .modal-card { transform: scale(1); opacity: 1 }
+.modal-close { position:absolute; right:14px; top:14px; background:#FFB300; border-radius:50%; width:34px; height:34px; border:none; color:#1A1919; font-weight:700; transition: all 0.2s ease; }
+.modal-close:hover { background:#E88E2E; transform: rotate(90deg); }
+.modal-header { padding:18px 12px; background: #1A1919; color: #FFB300; border-bottom: 1px solid #FFB300; }
+.modal-body { padding: 8px 20px 18px 20px; color: #FFEFCA; }
+.modal-footer { padding: 0 20px; border-top: 1px solid rgba(255,179,0,0.2); }
+.upload-placeholder { width:140px; height:120px; background: rgba(44,44,44,0.5); border: 2px dashed #FFB300; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#FFB300; transition: all 0.2s ease; }
+.upload-placeholder:hover { background: rgba(44,44,44,0.8); border-color: #E88E2E; color: #E88E2E; }
+/* Inputs dentro del modal: usar fondo oscuro consistente y texto blanco */
+.modal-card .form-control { background-color: #1A1919; border: 1px solid rgba(255,255,255,0.06); color: #FFFFFF; transition: all 0.2s ease; }
+.modal-card .form-control:focus { background-color: #1A1919; border-color: #FFB300; color: #FFFFFF; box-shadow: 0 0 0 0.2rem rgba(255,179,0,0.12); }
+.modal-card .form-control::placeholder { color: #9b9b9b }
+.btn-outline-light { background: transparent; color: #FFB300; border: 2px solid #FFB300; }
+
+/* Burbuja de notificaciones (cono) */
+.notif-bubble {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-image: url('/static/img/cono.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  cursor: pointer;
+  z-index: 2100;
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease;
+}
+.notif-bubble:active { transform: scale(0.96); }
+.notif-bubble.hidden { opacity: 0; pointer-events: none; }
+
+/* Clase aplicada durante la animación hacia el centro */
+.notif-bubble.animating {
+  transition: transform 420ms cubic-bezier(.2,.9,.2,1), left 420ms ease, top 420ms ease;
+}
+
+
+/* ---------- SOCIAL LOGIN ---------- */
+
+.social-login .btn {
+  background-color: #2C2C2C;
+  border: 1px solid #444;
+  color: #fff;
+  font-weight: 500;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.social-login .btn:hover {
+  background-color: #3A3A3A;
+}
+
+.icon-social {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* ---------- REGISTER PAGE ---------- */
+
+.register-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url("/static/img/fondo.jpg") center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-card {
+  background-color: rgba(44, 44, 44, 0.85);
+  backdrop-filter: blur(5px);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+.register-logo {
+  width: 120px;
+  height: auto;
+}
+
+.form-control {
+  background-color: #1A1919;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+.form-control:focus {
+  border-color: #FFB300;
+  box-shadow: 0 0 8px rgba(255, 179, 0, 0.5);
+}
+
+.btn-warning {
+  background-color: #FFB300;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #E88E2A;
+}
+
+.text-warning:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para las notificaciones */
+.notifications {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.notification-item {
+  background-color: #292929;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.notification-item p {
+  margin: 0 0 8px;
+  color: #fff;
+}
+
+.notification-item .btn {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Estilos para navegación con burbuja */
+.nav {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 8px;
+  align-items: center;
+  background: transparent;
+}
+
+.nav a {
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  z-index: 2; /* encima de la burbuja */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #FFB300 !important;
+}
+
+.nav-bubble {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 0;
+  height: 36px; /* altura por defecto */
+  background: rgba(255, 179, 0, 0.12); /* color burbuja TinCar */
+  border: 1px solid rgba(255, 179, 0, 0.18);
+  border-radius: 999px;
+  transition: left .20s ease, width .20s ease, height .20s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cono de notificaciones flotante */
+.notification-cone-fixed {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 9998;
+  transition: all 0.3s ease;
+}
+
+.notification-cone-fixed img {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.notification-cone-fixed:hover img {
+  filter: drop-shadow(0 0 20px rgba(255, 179, 0, 0.8)) 
+          drop-shadow(0 0 30px rgba(255, 179, 0, 0.6))
+          drop-shadow(0 0 40px rgba(255, 179, 0, 0.4));
+  transform: scale(1.1);
+}
+
+.notification-badge-cone {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #E88E2E;
+  color: #1A1919;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  min-width: 24px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(232, 142, 46, 0.4);
+  transition: all 0.3s ease;
+}
+
+.notification-cone-fixed:hover .notification-badge-cone {
+  box-shadow: 0 0 15px rgba(255, 179, 0, 0.8),
+              0 0 25px rgba(255, 179, 0, 0.5);
+  transform: scale(1.1);
+}
+
+/* Menú lateral de cuenta */
+.account-side-menu {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100%;
+  background: #2C2C2C;
+  border-left: 2px solid #FFB300;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 10000;
+  overflow-y: auto;
+}
+
+.account-side-menu.active {
+  right: 0;
+}
+
+.account-menu-header {
+  background: #1A1919;
+  padding: 20px;
+  border-bottom: 2px solid #FFB300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-menu-header h3 {
+  color: #FFB300;
+  margin: 0;
+  font-weight: 600;
+}
+
+.close-account-menu {
+  background: transparent;
+  border: none;
+  color: #FFB300;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  transition: all 0.3s ease;
+}
+
+.close-account-menu:hover {
+  color: #E88E2E;
+  transform: rotate(90deg);
+}
+
+.account-menu-body {
+  padding: 30px 20px;
+}
+
+.account-info {
+  text-align: center;
+}
+
+.profile-circle-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFB300, #E88E2E);
+  border: 3px solid #FFB300;
+}
+
+.account-info h4 {
+  color: #FFB300;
+  font-weight: 600;
+}
+
+.account-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 179, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 179, 0, 0.3);
+}
+
+.stat-label {
+  color: #FFEFCA;
+  font-size: 14px;
+}
+
+.stat-value {
+  color: #FFB300;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.account-actions {
+  margin-top: 20px;
+}
+
+/* Overlay del menú */
+.account-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 25, 25, 0.7);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.account-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ajuste del cono cuando el menú está activo */
+.notification-cone-fixed.menu-active {
+  right: 380px;
+  z-index: 10001;
+}
+
+/* Ajuste del cono cuando el menú lateral del conductor está abierto desde el modal de notificaciones */
+.notification-cone-fixed.with-driver-menu {
+  right: 190px; /* Posicionarlo entre el modal y el menú lateral (380px/2) */
+  z-index: 9999; /* Entre el modal (9999) y el menú (9998) */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Ajuste del cono cuando el menú de contacto del arrendador está abierto */
+.notification-cone-fixed.with-landlord-menu {
+  right: 190px;
+  z-index: 10002; /* Por encima del modal de notificaciones */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Estilos para detalles de contacto */
+.contact-item {
+  padding: 10px;
+  background: rgba(255, 179, 0, 0.05);
+  border-radius: 8px;
+}
+

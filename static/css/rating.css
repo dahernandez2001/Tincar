@@ -1,0 +1,32 @@
+/* Sistema de Calificación */
+.rating-modal {
+    background: #2C2C2C;
+    border: 2px solid #FFB300;
+}
+
+.rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 36px;
+}
+
+.rating-stars .star {
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rating-stars .star:hover {
+    color: #FFB300;
+    transform: scale(1.2);
+}
+
+.rating-stars .star.selected {
+    color: #FFB300;
+    text-shadow: 0 0 10px rgba(255, 179, 0, 0.5);
+}
+
+.rating-stars .star i {
+    pointer-events: none;
+}

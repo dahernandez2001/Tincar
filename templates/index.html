@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary py-3">
+  <div class="container">
+    <a class="navbar-brand text-warning fw-bold d-flex align-items-center" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="TinCar" width="60" class="me-2">
+      TinCar
+    </a>
+    <div class="ms-auto">
+      <div class="nav">
+        <a href="{{ url_for('servicios') }}">Servicios</a>
+        <div class="nav-bubble"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="container hero-section">
+  <div class="row align-items-center">
+    <div class="col-md-6 text-center text-md-start">
+      <h1 class="fw-bold text-warning display-4">Bienvenido a TinCar</h1>
+      <p class="lead text-light">Con TinCar, guardamos tu tranquilidad en casa.</p>
+      <div class="mt-4">
+        <a href="{{ url_for('register') }}" class="btn btn-warning me-3 fw-semibold btn-lg">Registrarse</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light fw-semibold btn-lg">Inicia sesión</a>
+      </div>
+    </div>
+    <div class="col-md-6 text-center mt-5 mt-md-0">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="TinCar Logo" class="hero-logo">
+    </div>
+  </div>
+</section>
+
+<!-- Sobre TinCar -->
+<section class="py-5 about-section" id="sobre-tincar">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Sobre TinCar</h2>
+    <p class="lead" style="color: #939393;">
+      El propósito de TinCar es reducir la congestión vehicular en las grandes ciudades mediante estrategias innovadoras que mejoren la movilidad y promuevan un tránsito más fluido y sostenible.
+    </p>
+    <a href="https://monocode777.github.io/TinCar-Portafolio/" target="_blank" class="btn btn-warning fw-semibold mt-3 btn-lg">Saber más</a>
+  </div>
+</section>
+
+<script>
+  // Script para la burbuja de navegación
+  // moved to static/js/index.js
+</script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+{% endblock %}
+

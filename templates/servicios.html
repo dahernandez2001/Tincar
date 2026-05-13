@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/servicios.css') }}">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary py-3">
+  <div class="container">
+    <a class="navbar-brand text-warning fw-bold d-flex align-items-center" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="TinCar" width="60" class="me-2">
+      TinCar
+    </a>
+    <div class="ms-auto">
+      <div class="nav">
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <div class="nav-bubble"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Sección de Servicios -->
+<section class="container py-5">
+  <h2 class="fw-bold mb-4 text-warning">Servicios</h2>
+
+  <div class="mb-5 p-4 service-card">
+    <div class="d-flex align-items-center mb-3">
+      <hr class="flex-grow-1 divider-line">
+      <span class="service-badge ms-2">Servicio de parqueo (conductor)</span>
+    </div>
+    <p class="text-light">
+      Facilita a los conductores encontrar, reservar y pagar parqueaderos cercanos en tiempo real, optimizando su tiempo y reduciendo la búsqueda de espacios disponibles.
+    </p>
+  </div>
+
+  <div class="p-4 service-card">
+    <div class="d-flex align-items-center mb-3">
+      <hr class="flex-grow-1 divider-line">
+      <span class="service-badge ms-2">Servicio de arriendo</span>
+    </div>
+    <p class="text-light">
+      Permite a los dueños de parqueaderos ofrecer sus espacios disponibles, gestionar horarios, tarifas y reservas, y obtener ingresos de manera segura y eficiente.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Script para la burbuja de navegación
+  // moved to static/js/servicios.js
+</script>
+<script src="{{ url_for('static', filename='js/servicios.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends "layout.html" %}
+{% block title %}Mi Perfil - TinCar{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/driver_profile.css') }}">
+
+<div class="profile-container">
+    <a href="{{ url_for('driver.driver_index') }}" class="back-btn">← Volver al Inicio</a>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="profile-header">
+        <div class="profile-photo-container">
+            <img 
+                src="{{ profile.profile_photo or '/static/img/default-avatar.svg' }}" 
+                alt="Foto de perfil" 
+                class="profile-photo"
+                id="profilePhotoPreview"
+            >
+            <label for="profilePhotoInput" class="photo-upload-btn" title="Cambiar foto">
+                <i class="fas fa-camera"></i>
+            </label>
+            <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+        </div>
+        
+        <h1>{{ profile.name }}</h1>
+        <p>{{ profile.email }}</p>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-value">⭐ {{ "%.1f"|format(profile.rating) }}</div>
+                <div class="stat-label">Calificación</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ profile.total_reservations }}</div>
+                <div class="stat-label">Reservaciones</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ profile.age or 'N/A' }}</div>
+                <div class="stat-label">Edad</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="profile-body">
+        <form id="profileForm">
+            <!-- INFORMACIÓN PERSONAL -->
+            <h2 class="section-title">
+                📋 Información Personal
+                {% if profile.document_verified == 'verificado' %}
+                    <span class="verification-badge badge-verified">✓ Verificado</span>
+                {% elif profile.document_verified == 'rechazado' %}
+                    <span class="verification-badge badge-rejected">✗ Rechazado</span>
+                {% else %}
+                    <span class="verification-badge badge-pending">⏳ Pendiente</span>
+                {% endif %}
+            </h2>
+            
+            {% if profile.document_verified == 'rechazado' %}
+                <div class="alert alert-danger">
+                    ⚠️ Tu documento fue rechazado. Por favor verifica la información y vuelve a cargar las imágenes.
+                </div>
+            {% elif profile.document_verified == 'pendiente' %}
+                <div class="alert alert-warning">
+                    ⏳ Tu documento está pendiente de verificación. Esto puede tardar hasta 24 horas.
+                </div>
+            {% endif %}
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Nombre Completo *</label>
+                    <input type="text" class="form-control" name="name" value="{{ profile.name }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico *</label>
+                    <input type="email" class="form-control" value="{{ profile.email }}" disabled>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Tipo de Documento *</label>
+                    <select class="form-control" name="document_type" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Cédula de ciudadanía" {{ 'selected' if profile.document_type == 'Cédula de ciudadanía' }}>Cédula de ciudadanía</option>
+                        <option value="Cédula extranjera" {{ 'selected' if profile.document_type == 'Cédula extranjera' }}>Cédula extranjera</option>
+                        <option value="Pasaporte" {{ 'selected' if profile.document_type == 'Pasaporte' }}>Pasaporte</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Número de Documento *</label>
+                    <input type="text" class="form-control" name="document_number" value="{{ profile.document_number or '' }}" required>
+                </div>
+            </div>
+            
+            <div class="document-upload">
+                <p><strong>📸 Foto del Documento</strong></p>
+                {% if profile.document_photo %}
+                    <img src="{{ profile.document_photo }}" class="preview-image" id="documentPhotoPreview">
+                {% endif %}
+                <br>
+                <input type="file" id="documentPhotoInput" accept="image/*" style="display: none;">
+                <button type="button" class="upload-btn" onclick="document.getElementById('documentPhotoInput').click()">
+                    Cargar Foto del Documento
+                </button>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Fecha de Nacimiento *</label>
+                    <input type="date" class="form-control" name="birth_date" value="{{ profile.birth_date or '' }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Género</label>
+                    <select class="form-control" name="gender">
+                        <option value="">Prefiero no decir</option>
+                        <option value="Masculino" {{ 'selected' if profile.gender == 'Masculino' }}>Masculino</option>
+                        <option value="Femenino" {{ 'selected' if profile.gender == 'Femenino' }}>Femenino</option>
+                        <option value="Otro" {{ 'selected' if profile.gender == 'Otro' }}>Otro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Teléfono Principal *</label>
+                    <input type="tel" class="form-control" name="phone" value="{{ profile.phone or '' }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Dirección Completa *</label>
+                    <input type="text" class="form-control" name="address" value="{{ profile.address or '' }}" required>
+                </div>
+            </div>
+            
+            <!-- CONTACTO DE EMERGENCIA -->
+            <h2 class="section-title">🚨 Contacto de Emergencia</h2>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Nombre del Contacto *</label>
+                    <input type="text" class="form-control" name="emergency_contact_name" value="{{ profile.emergency_contact_name or '' }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Relación *</label>
+                    <select class="form-control" name="emergency_contact_relationship" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Padre" {{ 'selected' if profile.emergency_contact_relationship == 'Padre' }}>Padre</option>
+                        <option value="Madre" {{ 'selected' if profile.emergency_contact_relationship == 'Madre' }}>Madre</option>
+                        <option value="Hermano/a" {{ 'selected' if profile.emergency_contact_relationship == 'Hermano/a' }}>Hermano/a</option>
+                        <option value="Cónyuge" {{ 'selected' if profile.emergency_contact_relationship == 'Cónyuge' }}>Cónyuge</option>
+                        <option value="Hijo/a" {{ 'selected' if profile.emergency_contact_relationship == 'Hijo/a' }}>Hijo/a</option>
+                        <option value="Amigo/a" {{ 'selected' if profile.emergency_contact_relationship == 'Amigo/a' }}>Amigo/a</option>
+                        <option value="Otro" {{ 'selected' if profile.emergency_contact_relationship == 'Otro' }}>Otro</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Teléfono de Emergencia *</label>
+                <input type="tel" class="form-control" name="emergency_phone" value="{{ profile.emergency_phone or '' }}" required>
+            </div>
+            
+            <!-- LICENCIA DE CONDUCCIÓN -->
+            <h2 class="section-title">
+                🪪 Licencia de Conducción
+                {% if profile.license_verified == 'verificado' %}
+                    <span class="verification-badge badge-verified">✓ Verificada</span>
+                {% elif profile.license_verified == 'rechazado' %}
+                    <span class="verification-badge badge-rejected">✗ Rechazada</span>
+                {% else %}
+                    <span class="verification-badge badge-pending">⏳ Pendiente</span>
+                {% endif %}
+            </h2>
+            
+            {% if profile.license_verified == 'rechazado' %}
+                <div class="alert alert-danger">
+                    ⚠️ Tu licencia fue rechazada. Por favor verifica la información y vuelve a cargar las imágenes.
+                </div>
+            {% elif not profile.license_validity.valid %}
+                <div class="alert alert-danger">
+                    ❌ Tu licencia de conducción está vencida. No podrás realizar reservaciones hasta que la actualices.
+                </div>
+            {% elif profile.license_validity.days_until_expiry and profile.license_validity.days_until_expiry < 30 %}
+                <div class="alert alert-warning">
+                    ⚠️ Tu licencia vence en {{ profile.license_validity.days_until_expiry }} días. Te recomendamos renovarla pronto.
+                </div>
+            {% endif %}
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Número de Licencia *</label>
+                    <input type="text" class="form-control" name="license_number" value="{{ profile.license_number or '' }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Fecha de Vencimiento *</label>
+                    <input type="date" class="form-control" name="license_expiry_date" value="{{ profile.license_expiry_date or '' }}" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Categoría de Licencia *</label>
+                <select class="form-control" name="license_category" required>
+                    <option value="">Seleccione...</option>
+                    <option value="A1" {{ 'selected' if profile.license_category == 'A1' }}>A1 - Motocicletas hasta 125cc</option>
+                    <option value="A2" {{ 'selected' if profile.license_category == 'A2' }}>A2 - Motocicletas superiores a 125cc</option>
+                    <option value="B1" {{ 'selected' if profile.license_category == 'B1' }}>B1 - Automóviles, camperos, camionetas</option>
+                    <option value="B2" {{ 'selected' if profile.license_category == 'B2' }}>B2 - Vehículos B1 + remolque</option>
+                    <option value="B3" {{ 'selected' if profile.license_category == 'B3' }}>B3 - Servicio público (taxis, buses pequeños)</option>
+                    <option value="C1" {{ 'selected' if profile.license_category == 'C1' }}>C1 - Camiones rígidos</option>
+                    <option value="C2" {{ 'selected' if profile.license_category == 'C2' }}>C2 - Camiones articulados</option>
+                    <option value="C3" {{ 'selected' if profile.license_category == 'C3' }}>C3 - Vehículos articulados pesados</option>
+                </select>
+            </div>
+            
+            <div class="document-upload">
+                <p><strong>📸 Foto de la Licencia</strong></p>
+                {% if profile.license_photo %}
+                    <img src="{{ profile.license_photo }}" class="preview-image" id="licensePhotoPreview">
+                {% endif %}
+                <br>
+                <input type="file" id="licensePhotoInput" accept="image/*" style="display: none;">
+                <button type="button" class="upload-btn" onclick="document.getElementById('licensePhotoInput').click()">
+                    Cargar Foto de la Licencia
+                </button>
+            </div>
+            
+            <!-- INFORMACIÓN DEL VEHÍCULO -->
+            <h2 class="section-title">🚗 Información del Vehículo (Opcional)</h2>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Placa del Vehículo</label>
+                    <input type="text" class="form-control" name="vehicle_plate" value="{{ profile.vehicle_plate or '' }}" style="text-transform: uppercase;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Marca</label>
+                    <input type="text" class="form-control" name="vehicle_brand" value="{{ profile.vehicle_brand or '' }}">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label class="form-label">Modelo</label>
+                    <input type="text" class="form-control" name="vehicle_model" value="{{ profile.vehicle_model or '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Color</label>
+                    <input type="text" class="form-control" name="vehicle_color" value="{{ profile.vehicle_color or '' }}">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Año</label>
+                <input type="number" class="form-control" name="vehicle_year" value="{{ profile.vehicle_year or '' }}" min="1900" max="2099">
+            </div>
+            
+            <!-- BOTÓN GUARDAR -->
+            <div style="text-align: center;">
+                <button type="submit" class="save-btn"> Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/driver_profile.js') }}"></script>
+
+<!-- Font Awesome para iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
