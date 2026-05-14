@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tincar.Mobile.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Label
+                Text="Tincar Móvil"
+                FontSize="30"
+                FontAttributes="Bold" />
+
+            <Label
+                Text="Fase 1: Consumir backend Flask actual"
+                FontSize="16"
+                TextColor="#4B5563" />
+
+            <Label Text="URL base API" FontAttributes="Bold" />
+            <Entry
+                x:Name="BaseUrlEntry"
+                Placeholder="http://10.0.2.2:5000"
+                Text="http://10.0.2.2:5000" />
+
+            <Button
+                Text="Cargar parqueaderos activos"
+                Clicked="OnLoadParkingsClicked" />
+
+            <Label
+                x:Name="StatusLabel"
+                Text="Listo para consultar"
+                FontSize="13"
+                TextColor="#6B7280" />
+
+            <CollectionView x:Name="ParkingsCollection">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="12" Margin="0,4" BorderColor="#E5E7EB" CornerRadius="10">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding Address}" FontSize="13" TextColor="#374151" />
+                                <Label Text="{Binding CityLine}" FontSize="12" TextColor="#6B7280" />
+                                <Label Text="{Binding Status}" FontSize="12" TextColor="#0F766E" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

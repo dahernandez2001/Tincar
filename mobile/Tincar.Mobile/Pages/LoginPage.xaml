@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tincar.Mobile.Pages.LoginPage"
+             Title="Login">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="14">
+            <Label Text="Iniciar sesión" FontSize="30" FontAttributes="Bold" />
+            <Label Text="Backend actual Flask" FontSize="14" TextColor="#6B7280" />
+
+            <Label Text="Entorno" FontAttributes="Bold" />
+            <Label Text="{Binding EnvironmentName}" TextColor="#374151" />
+
+            <Label Text="URL base API" FontAttributes="Bold" />
+            <Entry Text="{Binding BaseUrl}" Placeholder="http://10.0.2.2:5000" />
+            <Button Text="Guardar URL" Command="{Binding SaveBaseUrlCommand}" />
+
+            <Label Text="Correo" FontAttributes="Bold" />
+            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="correo@tincar.com" />
+
+            <Label Text="Contraseña" FontAttributes="Bold" />
+            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="********" />
+
+            <Button Text="Iniciar sesión" Command="{Binding LoginCommand}" />
+
+            <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#6B7280" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

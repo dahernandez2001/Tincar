@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tincar.Mobile.Pages.ReservationsPage"
+             Title="Reservas">
+
+    <VerticalStackLayout Padding="18" Spacing="12">
+        <Button Text="Recargar reservas" Command="{Binding LoadCommand}" />
+        <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#6B7280" />
+
+        <CollectionView ItemsSource="{Binding Reservations}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="12" Margin="0,4" BorderColor="#E5E7EB" CornerRadius="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding ParkingName}" FontAttributes="Bold" FontSize="16" />
+                            <Label Text="{Binding Address}" FontSize="13" TextColor="#374151" />
+                            <Label Text="{Binding Status}" FontSize="12" TextColor="#0F766E" />
+                            <Label Text="{Binding DurationMinutes, StringFormat='Duración: {0} min'}" FontSize="12" TextColor="#6B7280" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+
+</ContentPage>
